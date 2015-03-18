@@ -51,6 +51,7 @@ jQuery(document).ready(function() {
 		
 	   	events: {
 	   	    'click .deleteScenario' : 'removeItem',
+	   	    'click .species-predefined-choice' : 'selectSpecies',
 	   	    'click .addSpecies' : 'showPredefinedSpecies'
 	   	},
 	   	
@@ -62,7 +63,17 @@ jQuery(document).ready(function() {
 	    showPredefinedSpecies: function(e)
 	    {
 	    	console.log("showPredefinedSpecies");
-	    	jQuery('.species-predefined-list').show();
+	    	this.$el.find(jQuery('.species-predefined-list')).show();
+	    },
+	    
+	    selectSpecies: function(e)
+	    {
+	    	console.log("selectSpecies");
+	    	//var specHtml = this.$el.find(jQuery('.species-predefined-choice').attr('id'));
+	    	//var specHtml = this.attr('name');
+	    	//console.log(specHtml.selector);
+	    	var specHtml = this.attr('name'));
+	    	console.log(specHtml);
 	    }
 
 	});
@@ -75,12 +86,11 @@ jQuery(document).ready(function() {
 	        //this.$el = $('#scenario-row-box');
 	        this.collection.on('add', this.addItem);
 	        this.item_view = ScenarioRowView;
+	        //this.temp_scenario = {'name' : 'NameHere'}
 	        //this.$el.append(jQuery('#scenario-template').html());
-	        this.collection.add([
-	                              {name: "Flying Dutchman"},
-	                              {name: "Black Pearl"}
-	                            ]);
+	        this.collection.add();//(this.temp_scenario);
 	        //this.$el.find();
+	        
 	        console.log("Initialize ScenarioRowView");
 		},
 		
@@ -109,6 +119,8 @@ jQuery(document).ready(function() {
 	   	    //this.scenario_list_view = new ScenarioRowView();//);
 	   		//this.scenario_container = $('#scenario-row-box');
 	   		this.scenario_list_view = new ScenarioCollectionView({el: jQuery('#scenario-row-box')});
+	   		this.temp_scenario = {'name' : 'NameHere'}
+	   		this.scenario_list_view.collection.add(this.temp_scenario);
 	   	    console.log("Initialize CanopyScenarioGraphView");
 	   	    console.log("this.$el");
 	   	    console.log(this.$el);
@@ -125,6 +137,7 @@ jQuery(document).ready(function() {
 	    addScenario: function(e)
 	    {   
 	   		console.log("addScenario");
+	   		//this.scenario_list_view.collection();
 	   		//this.scenario_list_view.append(ScenarioRowView().render());
 //	   		this.scenario_list_view.on('add', this.addItem);
 //	   		this.course_list_view.collection.create(
