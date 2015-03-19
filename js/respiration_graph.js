@@ -69,11 +69,28 @@ jQuery(document).ready(function() {
 	    selectSpecies: function(e)
 	    {
 	    	console.log("selectSpecies");
+	    	console.log("e");
+	   		console.log(e);
+	   		console.log("e.currentTarget");
+	   		console.log(e.currentTarget);
+	   		console.log("e.currentTarget.attributes");
+	   		console.log(e.currentTarget.attributes);
+	   		console.log("e.currentTarget.attributes.name");
+	   		console.log(e.currentTarget.attributes.name);
+	   		console.log("e.currentTarget.attributes.innerHTML()");
+	   		console.log(e.currentTarget.attributes.innerHTML());
+	   		console.log("e.currentTarget.attributes.innerText()");
+	   		console.log(e.currentTarget.attributes.innerText());
 	    	//var specHtml = this.$el.find(jQuery('.species-predefined-choice').attr('id'));
 	    	//var specHtml = this.attr('name');
 	    	//console.log(specHtml.selector);
-	    	var specHtml = this.attr('name'));
-	    	console.log(specHtml);
+	    	var specHtml = this.$el//attr('name');
+	    	//console.log("this.$el");
+	    	//console.log(specHtml);
+	    	//console.log("this.$el.attributes");
+	    	//console.log(this.$el.attributes);
+	    	//console.log("this.model");
+	    	//console.log(this.model);
 	    }
 
 	});
@@ -121,11 +138,11 @@ jQuery(document).ready(function() {
 	   		this.scenario_list_view = new ScenarioCollectionView({el: jQuery('#scenario-row-box')});
 	   		this.temp_scenario = {'name' : 'NameHere'}
 	   		this.scenario_list_view.collection.add(this.temp_scenario);
-	   	    console.log("Initialize CanopyScenarioGraphView");
-	   	    console.log("this.$el");
-	   	    console.log(this.$el);
-	   	    console.log("this.scenario_list_view");
-	   	    console.log(this.scenario_list_view);
+	   	    //console.log("Initialize CanopyScenarioGraphView");
+	   	    //console.log("this.$el");
+	   	    //console.log(this.$el);
+	   	    //console.log("this.scenario_list_view");
+	   	    //console.log(this.scenario_list_view);
 	   	    //console.log("this.$el");
 	   	},
 	   	
@@ -137,6 +154,10 @@ jQuery(document).ready(function() {
 	    addScenario: function(e)
 	    {   
 	   		console.log("addScenario");
+	   		//console.log("e");
+	   		//console.log(e);
+	   		//console.log("this.$el");
+	   		//console.log("this.$el");
 	   		//this.scenario_list_view.collection();
 	   		//this.scenario_list_view.append(ScenarioRowView().render());
 //	   		this.scenario_list_view.on('add', this.addItem);
