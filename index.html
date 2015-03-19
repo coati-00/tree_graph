@@ -14,18 +14,12 @@
     <script type="text/javascript" src="js/backbone_base_classes.js"></script>
     <script type="text/javascript" src="js/bb_models_collections.js"></script>
     <script type="text/javascript" src="js/respiration_graph.js"></script>
-    <script type="text/template">
-      <input type="hidden" name="leaf-species{{forloop.counter}}-name" id="leaf-species{{forloop.counter}}-name" value='{{species|hash:"name"}}' />
-      <input type="hidden" name="leaf-species{{forloop.counter}}-base-temp" id="leaf-species{{forloop.counter}}-base-temp" value='{{species|hash:"basetemp"}}' />
-      <input type="hidden" name="leaf-species{{forloop.counter}}-E0" id="leaf-species{{forloop.counter}}-E0" value='{{species|hash:"E0"}}' />
-      <input type="hidden" name="leaf-species{{forloop.counter}}-R0" id="leaf-species{{forloop.counter}}-R0" value='{{species|hash:"R0"}}' />
-      <input type="hidden" name="leaf-species{{forloop.counter}}-percent" id="leaf-species{{forloop.counter}}-percent" value='{{species|hash:"percent"}}' />
-   </script>
+
+
    <script type="text/template" id="scenario-species">
      <tr>
 	   <td>Base Temperature:</td><td>T <sub> 0 </sub>  = 
-	     <!--good default is 15 -->
-	     <input type="text" size="5" id="species1-base-temp" name="species1-base-temp" class="base-temp"
+	     <input type="text" size="5" id="<%= label %>-base-temp" name="<%= label %>-base-temp" class="base-temp"
 	     value="0" onchange="javascript:calculateKelvin(species1-base-temp);"
 		 onkeyup="javascript:calculateKelvin(species1-base-temp);" />
 		 &deg;C = <span id="kelvin"> 273.15 </span>  K 
@@ -36,7 +30,7 @@
          Respiration Rate<br/>	    @ base temperature
        </td>
        <td>
-		 R<sub>0 </sub>= <input type="text" size="5" id="species1-R0" name="species1-R0" class="r-zero arr-field" />
+		 R<sub>0 </sub>= <input type="text" size="5" id="<%= label %>-R0" name="<%= label %>-R0" class="r-zero arr-field" />
 		 umol&nbsp;m<sup>-2</sup>s<sup>-1</sup>
 	   </td>
 	 </tr>
@@ -45,20 +39,26 @@
 	     Energy of Activation <br />@ base temperature
        </td>
 	   <td>
-	     E<sub>0 </sub>	= <input type="text" size="5" id="species1-E0" name="species1-E0" class="e-zero arr-field" />
+	     E<sub>0 </sub>	= <input type="text" size="5" id="<%= label %>-E0" name="<%= label %>-E0" class="e-zero arr-field" />
 		 J mol<sup>-1</sup>
 	   </td>
 	 </tr>
+     <tr>
+     <td>t0: <%= t0 %></td>
+     <td>k: <%= k %></td>
+     <td>r0: <%= r0 %></td>
+     <td>e0: <%= e0 %></td>
+     </tr>
    </script>
    <script type="text/template" id="scenario-template">
      <div class="scenario-row">
        <div class="scenario-title">
-         <h4>Scenario Row Template</h4>
-         <button type="button" class="btn btn-danger btn-xs deleteScenario">Delete Scenario </button>
-         <div class="colorswatch" id="scenario-swatch">
+         <h4 style="display: inline;">Scenario Row Template</h4>
+         <button type="button" class="btn btn-danger btn-xs deleteScenario" style="display: inline;">Delete Scenario </button>
+         <div class="colorswatch" id="scenario-swatch" style="display: inline;">
 	      &nbsp;&nbsp;&nbsp;&nbsp;
 	     </div>
-	     <input type="text" class="scenario-name" id="scenario-name" name="scenario-name" value='' />
+	     <input type="text" class="scenario-name" id="scenario-name" name="<%= scenario-name %>" value='<%= scenario-name %>' />
 	   </div><!-- End Scenario Title -->
 	   <div class="inner-species-box">
 	      <div class="species-table-header">
@@ -85,7 +85,7 @@
           <!-- End Species Table Header -->
           <!-- Table Contains Rows of Species for a given Scenario -->
           <div class="species-table-area">
-            <table style="margin-left:50px;width: 87%;">
+            <table style="margin-left:50px;width: 87%;" class="species-row-container">
               <!-- Each Species Should Be Added as a Series of Table Row - 2 per tree -->
             </table>
           </div><!-- End Species Table Area -->
