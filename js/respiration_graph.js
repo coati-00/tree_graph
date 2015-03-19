@@ -27,100 +27,101 @@ jQuery(document).ready(function() {
 		initialize: function (options) {
 			//_.bindAll(this, 'renderCollection', 'addItem', 'showPredefinedSpecies');
 		    this.numSpecies = 0;
-		    //this.predefinedSpeciesList = [];
-		    this.predefinedSpecies = Backbone.Collection.extend({
-		        "quercus_rubra" : {
+		    this.speciesList = new SpeciesCollection();
+		    this.predefinedSpecies = new SpeciesCollection();
+		    this.predefinedSpecies.add([
+		        new Species({   'id': "quercus_rubra",
 		            'label' : 'Quercus rubra',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.602,
 		            'e0' : 43140
-		        },
-		        "quercus_prinus" : {
+		        }),
+		        new Species({   'id': "quercus_prinus",
 		            'label' : 'Quercus prinus',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.670,
 		            'e0' : 37005
-		        },
-		        "acer_rubrum" : {
+		        }),
+		        new Species({   'id': "acer_rubrum",
 		            'label' : 'Acer rubrum',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.680,
 		            'e0' : 27210
-		        },
-		        "vaccinium_corymbosum" : {
+		        }),
+		        new Species({   'id': "vaccinium_corymbosum",
 		            'label' : 'Vaccinium corymbosum',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.091,
 		            'e0' : 62967
-		        },
-		        "berberis_thumbergii" : {
+		        }),
+		        new Species({   'id': "berberis_thumbergii",
 		            'label' : 'Berberis thumbergii',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.203,
 		            'e0' : 81950
-		        },
-		        "kalmia_latifolia" : {
+		        }),
+		        new Species({   'id': "kalmia_latifolia",
 		            'label' : 'Kalmia latifolia',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.308,
 		            'e0' : 54940
-		        },
-		        "carya_glabra": {
+		        }),
+		        new Species({   'id': "carya_glabra",
 		            'label' : 'Carya glabra',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.134,
 		            'e0' : 70547.5
-		        },
-		        "liriodendron_tulipifera": {
+		        }),
+		        new Species({   'id': "liriodendron_tulipifera",
 		            'label' : 'Liriodendron tulipifera',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.187,
 		            'e0' : 60620.0
-		        },
-		        "platanus_occidentalis": {
+		        }),
+		        new Species({   'id': "platanus_occidentalis",
 		            'label' : 'Platanus occidentalis',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.320,
 		            'e0' : 56336.7
-		        },
-		        "betula_papyrifera": {
+		        }),
+		        new Species({   'id': "betula_papyrifera",
 		            'label' : 'Betula papyrifera',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.357,
 		            'e0' : 45322.0
-		        },
-		        "populus_tremuloides": {
+		        }),
+		        new Species({   'id': "populus_tremuloides",
 		            'label' : 'Populus tremuloides',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.424,
 		            'e0' : 52261.3
-		        },
-		        "populus_grandidentata": {
+		        }),
+		        new Species({   'id': "populus_grandidentata",
 		            'label' : 'Populus grandidentata',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.294,
 		            'e0' : 59425.5
-		        },
-		        "betula_lenta": {
+		        }),
+		        new Species({   'id': "betula_lenta",
 		            'label' : 'Betula lenta',
 		            't0' : 10,
 		            'k' :  283.15,
 		            'r0' : 0.162,
 		            'e0' : 54267.7
-		        }
-		    });
+		        })
+		    ]);
 		    this.tmp_species = {'species-name': '', 'species-base-temp': '', 'species-R0': '', 'species-E0': ''};
 		    //this.tmp_species = clone(predefinedSpecies[])
 		    this.species_list = new SpeciesCollection({ '1' : this.tmp_species});
@@ -148,28 +149,24 @@ jQuery(document).ready(function() {
 	    
 	    selectSpecies: function(e)
 	    {
-	   		//console.log("e.currentTarget.attributes.name");
-	   		//console.log(e.currentTarget.attributes.name);
-	   		console.log("e.currentTarget.attributes.id");
-	   		console.log(e.currentTarget.attributes.id);
-	   		console.log("e.currentTarget.attributes['id']");
-	   		console.log(e.currentTarget.attributes['id']);
-	   		console.log("e.currentTarget.attributes['id'].value");
-	   		console.log(e.currentTarget.attributes['id'].value);
-	   		console.log("e.currentTarget.attributes.get('id')");
-	   		console.log(e.currentTarget.attributes['id']);
-	   		var get_species = this.predefinedSpecies;
+	   		//console.log("e.currentTarget.attributes['id'].value");
+	   		//console.log(e.currentTarget.attributes['id'].value);
+	   		console.log(this.predefinedSpecies);
+	   		var get_species = this.predefinedSpecies.get([e.currentTarget.attributes['id'].value]);
+	   		//this.predefinedSpecies.get(e.currentTarget.attributes['id'].value);
+	   		console.log("this.predefinedSpecies");
+	   		console.log(this.predefinedSpecies);
 	   		console.log("get_species");
 	   		console.log(get_species);
-	   		var temp_species = jQuery.extend(true, {}, this.predefinedSpecies[e.currentTarget.attributes.id]);
+	   		//var temp_species = jQuery.extend(true, {}, this.predefinedSpecies[e.currentTarget.attributes.id]);
 	   		//var temp_species = clone(this.predefinedSpecies[e.currentTarget.attributes.id]);
-	   		console.log(temp_species);
+	   		//console.log(temp_species);
 	   	    //this.tmp_species = {'species-name': '', 'species-base-temp': '', 'species-R0': '', 'species-E0': ''};
 	   		//this.species_list.create();
 	    	//var specHtml = this.$el.find(jQuery('.species-predefined-choice').attr('id'));
 	    	//var specHtml = this.attr('name');
 	    	//console.log(specHtml.selector);
-	    	var specHtml = this.$el//attr('name');
+	    	//var specHtml = this.$el//attr('name');
 	    	//console.log("this.$el");
 	    	//console.log(specHtml);
 	    	//console.log("this.$el.attributes");
