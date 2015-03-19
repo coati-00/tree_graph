@@ -1,0 +1,41 @@
+.scenario-table .scenario-table-header { 
+	background-color: #B0E2FF;
+	border-radius: 1em;
+	padding: 1em 2em;
+}
+
+.scenario-table .scenario-table-header :first-child {
+	display: inline;
+}
+
+.scenario-table .scenario-table-body { 
+	background-color: #C2FFFF;
+	border-radius: 1em;
+	padding: 1em 2em;
+}
+	
+.scenario-row {
+	/* Each Scenario Row gets a color which will be used in the graph */
+	
+}
+
+.species-table{
+	/* This holds the species of a scenario and the header */
+	background: #B2FFE0;
+	padding: 1em 2em;
+}
+
+.species-table-body{
+	/* This is where the rows of species for a scenario go */
+	/* background: #52be7f; */
+	margin-left: auto;
+    margin-right: auto;
+    position: relative;
+	border-radius: 2em;
+
+}
+
+.scenario-species-row{
+	/* This is where the rows of species for a scenario go */
+	background: #52be7f;
+}

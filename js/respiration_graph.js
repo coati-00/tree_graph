@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 	
 	var SpeciesRowView = DeletableItemView.extend({
 		initialize: function (options) {
-		    this.template = _.template(jQuery("#scenario-species").html());
+		    this.template = _.template(jQuery("#scenario-species-template").html());
 		    console.log("Initialize SpeciesRowView");
 		},
 		
@@ -169,24 +169,17 @@ jQuery(document).ready(function() {
 	   	events: {
 	   	    'click .deleteScenario' : 'removeItem',
 	   	    'click .species-predefined-choice' : 'selectSpecies',
-	   	    'click .addSpecies' : 'showPredefinedSpecies'
 	   	},
 	   	
-	    hidePredefinedSpecies: function(e)
-	    {   
-	    	console.log("hidePredefinedSpecies");
-	    },
-	    
-	    showPredefinedSpecies: function(e)
-	    {
-	    	console.log("showPredefinedSpecies");
-	    	this.$el.find(jQuery('.species-predefined-list')).show();
-	    },
-	    
 	    selectSpecies: function(e)
 	    {
-	    	this.$el.find(jQuery('.species-predefined-list')).hide();
+	    	console.log("selectSpecies");
+	    	console.log("e");
+	   		console.log(e);
+	    	//this.$el.find(jQuery('.species-predefined-list')).hide();
 	   		var get_species = this.predefinedSpecies.get([e.currentTarget.attributes['id'].value]);
+	   		console.log("get_species");
+	   		console.log(get_species);
 	   		var temp_species = get_species.clone();
 	   		this.speciesListView.collection.add(temp_species);
 	   		this.species_container.append(new SpeciesRowView(temp_species));
@@ -242,19 +235,19 @@ jQuery(document).ready(function() {
 	   		 */
 	   		this.$el = $('#canopy-graph-pane');
 	   	    /* For now tying to the entire canopy tab-pane */
-	   		this.scenario_list_view = new ScenarioCollectionView({el: jQuery('#scenario-row-box')});
-	   		var temp_thing = new ScenarioRowView(new Scenario({'scenario-name': 'Initial Scenario'}));
-	   		console.log("temp_thing");
-	   		console.log(temp_thing);
+	   		this.scenario_list_view = new ScenarioCollectionView({el: jQuery('.scenario-table')});
+	   		//var temp_thing = new ScenarioRowView(new Scenario({'scenario-name': 'Initial Scenario'}));
+	   		//console.log("temp_thing");
+	   		//console.log(temp_thing);
 	   		//this.scenario_list_view.append(temp_thing);
 	   		//this.scenario_list_view.add();
 	   		//this.temp_scenario = new Scenario();
 	   		//{ 
 	   		//	'scenario-name': "Initial Scenario"
 	   		//}
-	   		console.log("this.scenario_list_view.collection");
-	   		console.log(this.scenario_list_view.collection);
-	   		this.scenario_list_view.collection.add(new Scenario({'scenario-name': 'Initial Scenario'}));
+	   		//console.log("this.scenario_list_view.collection");
+	   		//console.log(this.scenario_list_view.collection);
+	   		//this.scenario_list_view.collection.add(new Scenario({'scenario-name': 'Initial Scenario'}));
 	   		//console.log("this.temp_scenario");
 	   		//console.log(this.temp_scenario);
 //	   		this.temp_scenario = 	 new Species({   
