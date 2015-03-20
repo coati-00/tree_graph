@@ -83,7 +83,8 @@ jQuery(document).ready(function() {
 	    }
 	    
    });
-
+	var scen_model = new Scenario({'scenarioName' : 'Scenario Name', 'id': 3 });
+	var scen_view = new ScenarioView({el: jQuery('#srow-test'), model: scen_model}).render();
 	var canopy_graph_view = new CanopyScenarioGraphView({});
 
     
