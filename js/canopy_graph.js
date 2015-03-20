@@ -35,16 +35,12 @@ jQuery(document).ready(function() {
 	                  'addScenario');
 	   		this.options = options;
 	   		this.numScenarios = 1;
-	   		
 	   		this.scenarioCollection = new ScenarioCollection();
-	   		
 	   		/* May not need code under here */
 	   		this.scenarioCollection.add([ 
 	   		    new Scenario({'scenarioName' : 'Scenario Name', 'id': this.numScenarios })
 	   		]);
 	   		this.$el = jQuery('#canopy-graph-pane');
-	   		
-	   	    /* For now tying to the entire canopy tab-pane */
 	   		this.scenario_table_el = jQuery('.scenario-table');
 	   		this.scenario_body_el = jQuery('.scenario-table-body');
 	   		
@@ -59,9 +55,6 @@ jQuery(document).ready(function() {
 	        //this.listenTo(this.scenarioCollection, 'reset', this.renderScenarios);
 	        this.listenTo(this.scenarioCollection, 'all', this.render);
 	   		
-	   		//this.scenario_body_el(this.scenario_template(.toJSON()));
-	   		
-	   		
 	   		console.log("Initializing Canopy Graph");
 	   	},
 	   	
@@ -69,11 +62,20 @@ jQuery(document).ready(function() {
 	   	    'click .addScenario' : 'addScenario',
 	   	},
 
-	    addScenario: function(scenario)
+	    addScenario: function(evt)
 	    {   
 	   		console.log("addScenario");
-	   		var view = new ScenarioView({model: scenario});
-	   		this.scenario_body_el.append(view.render().el);
+	   		console.log(evt);
+	   		this.numScenarios = this.numScenarios + 1;
+	   		console.log(this.numScenarios);
+	   		var scenario = new Scenario({'scenarioName' : 'Scenario Name', 'id': this.numScenarios })
+	   		//this.scenarioCollection.add([ 
+	   		//    new Scenario({'scenarioName' : 'Scenario Name', 'id': this.numScenarios })
+	   		//]);
+	   		var scenario_view = new ScenarioView({model: scenario});
+	   		this.scenario_body_el.append(scenario_view.render().el);
+	   		return this;
+   		
 	    },
 	    
 	    graphScenarios: function(e)
