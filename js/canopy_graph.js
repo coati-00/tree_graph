@@ -3,9 +3,9 @@ jQuery(document).ready(function() {
 	var ScenarioView = DeletableItemView.extend({
 		initialize: function (options) {
 			_.bindAll(this, 'selectSpecies');
-			if (options && 'course' in options) {
-	            this.course = options.course;
-	        }
+			//if (options && 'course' in options) {
+	        //    this.course = options.course;
+	        //}
 		    this.numSpecies = 0;
 		    this.speciesList = new SpeciesCollection();
 		    this.template = _.template(jQuery('#scenario-template').html());
@@ -64,10 +64,16 @@ jQuery(document).ready(function() {
 
 	    addScenario: function(evt)
 	    {   
-	   		console.log("addScenario");
-	   		console.log(evt);
 	   		this.numScenarios = this.numScenarios + 1;
-	   		console.log(this.numScenarios);
+	   		var scenario = new Scenario({'scenarioName' : 'Scenario Name', 'id': this.numScenarios })
+	   		var scenario_view = new ScenarioView({model: scenario});
+	   		this.scenario_body_el.append(scenario_view.render().el);
+	   		return this;
+	    },
+	    
+	    addSpecies: function(evt)
+	    {   
+	   		this.numScenarios = this.numScenarios + 1;
 	   		var scenario = new Scenario({'scenarioName' : 'Scenario Name', 'id': this.numScenarios })
 	   		//this.scenarioCollection.add([ 
 	   		//    new Scenario({'scenarioName' : 'Scenario Name', 'id': this.numScenarios })
@@ -75,13 +81,11 @@ jQuery(document).ready(function() {
 	   		var scenario_view = new ScenarioView({model: scenario});
 	   		this.scenario_body_el.append(scenario_view.render().el);
 	   		return this;
-   		
 	    },
 	    
 	    graphScenarios: function(e)
 	    {   
 	   		console.log("graphScenarios");
-	   		
 	    }
 	    
    });

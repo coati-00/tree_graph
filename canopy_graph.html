@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script type="text/javascript" src="js/libraries/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="js/libraries/underscore-1.8.2.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/libraries/backbone-1.1.2.js"></script>
+    <script type="text/javascript" src="js/libraries/require-2.1.16.js"></script>
+    <script type="text/javascript" src="js/libraries/Highcharts-4.1.4/js/highcharts.js"></script>
+    <script type="text/javascript" src="js/libraries/Highcharts-4.1.4/js/modules/exporting.js"></script>
+    <!-- <script type="text/javascript" src="js/backbone_base_classes.js"></script> -->
+    <!-- <script type="text/javascript" src="js/bb_models_collections.js"></script> -->
+    <!-- <script type="text/javascript" src="js/respiration_graph.js"></script> -->
+    <script type="text/javascript" src="js/canopy.js"></script>
+
+
+   <script type="text/template" id="scenario-species-template">
+     <div class="scenario-species-row">
+     <tr>
+	   <td>Base Temperature:</td><td>T <sub> 0 </sub>  = 
+	     <input type="text" size="5" id="<%= label %>-base-temp" name="<%= label %>-base-temp" class="base-temp"
+	     value="0" onchange="javascript:calculateKelvin(species1-base-temp);"
+		 onkeyup="javascript:calculateKelvin(species1-base-temp);" />
+		 &deg;C = <span id="kelvin"> 273.15 </span>  K 
+       </td>
+     </tr>
+     <tr>
+       <td>
+         Respiration Rate<br/>	    @ base temperature
+       </td>
+       <td>
+		 R<sub>0 </sub>= <input type="text" size="5" id="<%= label %>-R0" name="<%= label %>-R0" class="r-zero arr-field" />
+		 umol&nbsp;m<sup>-2</sup>s<sup>-1</sup>
+	   </td>
+	 </tr>
+	 <tr>
+	   <td>
+	     Energy of Activation <br />@ base temperature
+       </td>
+	   <td>
+	     E<sub>0 </sub>	= <input type="text" size="5" id="<%= label %>-E0" name="<%= label %>-E0" class="e-zero arr-field" />
+		 J mol<sup>-1</sup>
+	   </td>
+	 </tr>
+     <tr>
+     <td>t0: <%= t0 %></td>
+     <td>k: <%= k %></td>
+     <td>r0: <%= r0 %></td>
+     <td>e0: <%= e0 %></td>
+     </tr>
+     </div>
+   </script>
+   <script type="text/template" id="scenario-template">
+                     <div class="scenario-row">
+                  <div class="scenario-title">
+                    <h4 style="display: inline;">Scenario Row Template</h4>
+                    <button type="button" class="btn btn-danger btn-xs pull-right deleteScenario" style="display: inline;">Delete Scenario </button>
+                    <div class="colorswatch" id="scenario-swatch" style="display: inline;">&nbsp;&nbsp;&nbsp;&nbsp;
+	                </div>
+
+
+           
+            
+               
+           
+       
+	 <input type="text" class="scenario-name" name="<% if(scenarioName) { %> <%= scenarioName %><% } else {  %>Scenario-Name<%  } %>" value="<% if(scenarioName) { %> <%= scenarioName %><% } else {  %>Scenario-Name<%  } %>" />
+	              </div><!-- End Scenario Title -->
+	              <div class="species-table">
+	                <div class="species-table-header">
+	                  <div class="btn-group pull-right">
+	                    <button type="button" class="btn btn-success btn-xs pull-right dropdown-toggle addSpecies" data-toggle="dropdown" aria-expanded="false">
+	                      Add Species<span class="caret"></span>
+	                    </button>
+	                    <ul class="dropdown-menu" role="menu">
+        	              <li class="species-predefined-choice" data-id="acer_rubrum" name="Acer rubrum"><a href="#">Acer rubrum</a></li>
+                          <li class="species-predefined-choice" data-id="berberis_thumbergii" name="Berberis thumbergii"><a href="#">Berberis thumbergii</a></li>
+                          <li class="species-predefined-choice" data-id="betula_lenta" name="Betula lenta"><a href="#">Betula lenta</a></li>
+                          <li class="species-predefined-choice" data-id="betula_papyrifera" name="Betula papyrifera"><a href="#">Betula papyrifera</a></li>
+                          <li class="species-predefined-choice" data-id="carya_glabra" name="Carya glabra"><a href="#">Carya glabra</a></li>
+                          <li class="species-predefined-choice" data-id="kalmia_latifolia" name="Kalmia latifolia"><a href="#">Kalmia latifolia</a></li>
+                          <li class="species-predefined-choice" data-id="liriodendron_tulipifera" name="Liriodendron tulipifera"><a href="#">Liriodendron tulipifera</a></li>
+                          <li class="species-predefined-choice" data-id="platanus_occidentalis" name="Platanus occidentalis"><a href="#">Platanus occidentalis</a></li>
+                          <li class="species-predefined-choice" data-id="populus_tremuloides" name="Populus tremuloides"><a href="#">Populus tremuloides</a></li>
+                          <li class="species-predefined-choice" data-id="populus_grandidentata" name="Populus grandidentata"><a href="#">Populus grandidentata</a></li>
+                          <li class="species-predefined-choice" data-id="quercus_prinus" name="Quercus prinus"><a href="#">Quercus prinus</a></li>
+	                      <li class="species-predefined-choice" data-id="quercus_rubra" name="Quercus rubra"><a href="#">Quercus rubra</a></li>
+	                      <li class="species-predefined-choice" data-id="vaccinium_corymbosum" name="Vaccinium corymbosum"><a href="#">Vaccinium corymbosum</a></li>
+	                    </ul>
+	                  </div><!-- End Button Group Div -->
+                     </div><!-- End Species Table Header -->
+                     <!-- Table Contains Rows of Species for a given Scenario -->
+                     <div class="species-table-body">
+                       <!-- <table style="margin-left:50px;width: 87%;" class="species-row-container"> -->
+                         <!-- Each Species Should Be Added as a Series of Table Row - 2 per tree -->
+                       <!-- </table> -->
+                     </div><!-- End Species Table Area -->
+                   </div><!-- End Inner Species Box -->
+                 </div><!-- End Scenario Row Div -->
+   </script>
+  </head>
+
+  <body>
+  <h3>Tree Graph</h3>
+    <ul class="nav nav-tabs tree-graph-nav">
+      <li class="active"><a href="#leaf-graph-pane" data-toggle="tab">Leaf Level</a></li>
+      <li><a href="#canopy-graph-pane" data-toggle="tab">Canopy Level</a></li>
+    </ul>
+ 
+    <div class="tree-graph tab-content">
+    
+      <div class="tab-pane active" id="leaf-graph-pane">
+        <div id="container">
+        </div>
+        <div id="srow-test">
+        </div>
+      </div>
+      
+      <div class="tab-pane" id="canopy-graph-pane">
+        <div id="container2"></div>
+        <div id="canopy-graph">
+          <!-- This is where the graph is drawn -->
+        </div>
+        
+        <div id="canopy-table">
+          <div class="scenario-table">
+            <div class="scenario-table-header">
+              <h2>Scenario List</h2>
+              <button type="button" class="btn btn-success btn-xs pull-right addScenario">Add Scenario</button>
+            </div> <!-- End Scenario Table Header -->
+            
+            <div class="scenario-table-body"> 
+              <!-- For Now Starting with a Scenario Row - couldn't get the backbone collection view to auto populate with one -->
+                
+             </div> <!-- End Scenario Table Body -->
+            
+            </div><!-- End Scenario Table -->
+        </div><!-- End Canopy Table -->
+      </div> <!-- End of 2nd tab panel canopy-graph -->
+    </div><!-- End Tab Content Div -->
+  </body>
+</html>
