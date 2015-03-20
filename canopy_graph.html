@@ -21,9 +21,8 @@
      <div class="scenario-species-row">
      <tr>
 	   <td>Base Temperature:</td><td>T <sub> 0 </sub>  = 
-	     <input type="text" size="5" id="<%= label %>-base-temp" name="<%= label %>-base-temp" class="base-temp"
-	     value="0" onchange="javascript:calculateKelvin(species1-base-temp);"
-		 onkeyup="javascript:calculateKelvin(species1-base-temp);" />
+	     <input type="text" size="5" id="-base-temp" name="-base-temp" class="base-temp"
+	     value="0"  />
 		 &deg;C = <span id="kelvin"> 273.15 </span>  K 
        </td>
      </tr>
@@ -32,7 +31,7 @@
          Respiration Rate<br/>	    @ base temperature
        </td>
        <td>
-		 R<sub>0 </sub>= <input type="text" size="5" id="<%= label %>-R0" name="<%= label %>-R0" class="r-zero arr-field" />
+		 R<sub>0 </sub>= <input type="text" size="5" id="-R0" name="-R0" class="r-zero arr-field" />
 		 umol&nbsp;m<sup>-2</sup>s<sup>-1</sup>
 	   </td>
 	 </tr>
@@ -41,15 +40,15 @@
 	     Energy of Activation <br />@ base temperature
        </td>
 	   <td>
-	     E<sub>0 </sub>	= <input type="text" size="5" id="<%= label %>-E0" name="<%= label %>-E0" class="e-zero arr-field" />
+	     E<sub>0 </sub>	= <input type="text" size="5" id="-E0" name="-E0" class="e-zero arr-field" />
 		 J mol<sup>-1</sup>
 	   </td>
 	 </tr>
      <tr>
-     <td>t0: <%= t0 %></td>
-     <td>k: <%= k %></td>
-     <td>r0: <%= r0 %></td>
-     <td>e0: <%= e0 %></td>
+     <td>t0: </td>
+     <td>k: </td>
+     <td>r0: </td>
+     <td>e0: </td>
      </tr>
      </div>
    </script>
@@ -115,7 +114,11 @@
       <div class="tab-pane active" id="leaf-graph-pane">
         <div id="container">
         </div>
-        <div id="srow-test">
+        <div id="container-test">
+          <div class="species-view-test">
+          </div>
+          <div class="scenario-view-test">
+          </div>
         </div>
       </div>
       

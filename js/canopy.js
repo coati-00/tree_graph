@@ -6,8 +6,8 @@
 var App = { 
 	Models: {}, 
 	Collections: {}, 
-	
-	Contacts: null 
+	Views:{}//,
+	//Contacts: null 
 };
 
 
@@ -28,12 +28,12 @@ App.Collections.SpeciesCollection = Backbone.Collection.extend({
 App.Models.Scenario = Backbone.Model.extend({
 	
     defaults: function() {
-    	  return {
-    		  /* Should I be using 'this' or is that done automatically because it is a default? */
+        return {
+    	    /* Should I be using 'this' or is that done automatically because it is a default? */
     		scenarioName: 'Scenario Name',
     		numSpecies: 0,
     		speciesList: new App.Collections.SpeciesCollection(),
-    	  }
+    	}
     }
     
 });
@@ -53,6 +53,52 @@ App.Collections.ScenarioCollection = Backbone.Collection.extend({
     }
 
 });
+
+
+App.Views.Species = Backbone.View.extend({
+	/* I've been sticking template in the initialize method? Is this bad? */
+	//$container: null,
+	/* Browser complains about anything here... especially template */
+
+	initialize: function(options){
+		//_.bindAll(this, 'render', 'insert');
+		//this.$container = options.$container;
+		this.template = _.template(jQuery("#scenario-species-template").html());
+		//this.listenTo(this.model, 'change', this.render);
+		//this.insert(); // --what is insert for?
+	},
+
+	render: function () {
+        /* another option for rendering a model (instead of next 2 lines just return it): */
+        this.$el.html(this.template(this.model.attributes));
+        //var html = this.template(this.model.toJSON());
+        //this.$el.html(html);
+        return this;
+    },
+
+    insert: function(){
+		//this.$container.append(this.$el);
+	}
+
+});
+
+App.Views.Scenario = Backbone.Views.extend({
+	
+	initialize: function(options){
+		this.template = _.template(jQuery("#scenario-species-template").html());
+	},
+	
+	render: function() { var $container = this.$('.listing').empty(); App.Contacts.each(function(contact) { new App.Views.Contact({ model: contact, $container: $container }).render(); });
+	
+});
+
+//App.Views.SpeciesCollection = Backbone.Views.extend({});
+//App.Views.ScenarioTable = Backbone.Views.extend({});
+
+
+
+
+
 
 
 jQuery(function(){
@@ -169,11 +215,30 @@ jQuery(function(){
 	
 	//console.log("App.PredefinedSpecies");
 	//console.log(App.PredefinedSpecies);
-	App.Scenario = new App.Models.Scenario();
+	//App.Scenario = new App.Models.Scenario();
 	//console.log("App.Scenario");
 	//console.log(App.Scenario);
 
-	App.ScenarioCollection = new App.Collections.ScenarioCollection();
+	//App.ScenarioCollection = new App.Collections.ScenarioCollection();
+	
+	
+	
+	App.TestSpecies = new App.Models.Species({   
+        'id': "unique_id",
+        'label' : 'Quercus rubra',
+        't0' : 10,
+        'k' :  283.15,
+        'r0' : 0.602,
+        'e0' : 43140
+    });
+	console.log("App.TestSpecies");
+	console.log(App.TestSpecies);
+	App.TestSpeciesView = new App.Views.Species({ model: App.TestSpecies, el: jQuery('#container-test')}).render();
+	
+	
+	
+	
+	App.TestScenarioView = new App.Views.Scenario({ model: App.TestSpecies, el: jQuery('#container-test')}).render();
 	
 	
 });
