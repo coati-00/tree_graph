@@ -40,8 +40,6 @@ App.Models.Scenario = Backbone.Model.extend({
 
 
 App.Collections.ScenarioCollection = Backbone.Collection.extend({
-	/* Not really sure if I will need this collection in the application */
-	
 	/* Will probably have to override create so that the number is auto incremented */
 	
 	model: App.Models.Scenario,
@@ -56,45 +54,76 @@ App.Collections.ScenarioCollection = Backbone.Collection.extend({
 
 
 App.Views.Species = Backbone.View.extend({
-	/* I've been sticking template in the initialize method? Is this bad? */
-	//$container: null,
-	/* Browser complains about anything here... especially template */
 
 	initialize: function(options){
-		//_.bindAll(this, 'render', 'insert');
+		_.bindAll(this, 'render', 'insert');
 		//this.$container = options.$container;
 		this.template = _.template(jQuery("#scenario-species-template").html());
-		//this.listenTo(this.model, 'change', this.render);
-		//this.insert(); // --what is insert for?
+		if (options && 'container' in options) {
+			this.container = options.container;
+			this.insert();
+		}
+		this.listenTo(this.model, 'change', this.render);
 	},
 
 	render: function () {
-        /* another option for rendering a model (instead of next 2 lines just return it): */
         this.$el.html(this.template(this.model.attributes));
-        //var html = this.template(this.model.toJSON());
-        //this.$el.html(html);
         return this;
     },
 
     insert: function(){
-		//this.$container.append(this.$el);
+		this.container.append(this.$el);
 	}
 
 });
 
-App.Views.Scenario = Backbone.Views.extend({
+App.Views.Scenario = Backbone.View.extend({
 	
 	initialize: function(options){
-		this.template = _.template(jQuery("#scenario-species-template").html());
+		_.bindAll(this, 'render');
+		this.template = _.template(jQuery("#scenario-template").html());
+		/* would it be better to declare this.species container = null; 
+		 * and assign it each time in render? */
+		// this.species_container = this.$el.find(jQuery('.species-table-body'));
 	},
 	
-	render: function() { var $container = this.$('.listing').empty(); App.Contacts.each(function(contact) { new App.Views.Contact({ model: contact, $container: $container }).render(); });
+	render: function() { 
+		
+		// why would someone put a dollar sign infront of a variable?
+		var num_of_species = this.model.get('numSpecies');
+		if(num_of_species > 0) {
+			// remove current species rows
+		    var species_container = this.$('.species-table-body .species-row-container').empty();
+			console.log("num_of_species > 0");
+			console.log(num_of_species > 0);
+			this.model.speciesList.each(function(species) { 
+			    new App.Views.Species(
+					{ model: species, container: species_container }
+					).render(); 
+		    });
+		} // end if
+		else {
+	        this.$el.html(this.template(this.model.attributes));
+	        var species_container = this.$('.species-table-body .species-row-container').empty();
+	        var tree_here = new App.Models.Species({   
+	            'id': "ue_id",
+	            'label' : 'Tree Species',
+	            't0' : 10,
+	            'k' :  283.15,
+	            'r0' : 0.602,
+	            'e0' : 43140
+	        });
+	        this.$('.species-table-body').append(
+	        	new App.Views.Species({ model: tree_here, container: species_container  }).render());//, 
+	        
+	        return this;
+		}
+	}
 	
 });
 
 //App.Views.SpeciesCollection = Backbone.Views.extend({});
 //App.Views.ScenarioTable = Backbone.Views.extend({});
-
 
 
 
@@ -233,12 +262,16 @@ jQuery(function(){
     });
 	console.log("App.TestSpecies");
 	console.log(App.TestSpecies);
-	App.TestSpeciesView = new App.Views.Species({ model: App.TestSpecies, el: jQuery('#container-test')}).render();
+	App.TestSpeciesView = new App.Views.Species({ model: App.TestSpecies, el: jQuery('.species-view-test')}).render();
+	//App.TestScenarioView = new App.Views.Scenario();
 	
+	App.TestScenario = new App.Models.Scenario({});
+
+    
+	console.log("App.TestSpecies");
+	console.log(App.TestSpecies);
 	
-	
-	
-	App.TestScenarioView = new App.Views.Scenario({ model: App.TestSpecies, el: jQuery('#container-test')}).render();
+	App.TestScenarioView = new App.Views.Scenario({ model: App.TestScenario, el: jQuery('.scenario-view-test')}).render();
 	
 	
 });
