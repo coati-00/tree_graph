@@ -116,7 +116,7 @@ App.Views.Scenario = Backbone.View.extend({
 					{ model: species, container: species_container }
 					).render(); 
 		    });
-		} // end if
+		}
 		else {
 	        this.$el.html(this.template(this.model.attributes));
 	        var species_container = this.$('.species-table-body .species-row-container').empty();
@@ -157,11 +157,21 @@ App.Views.Scenario = Backbone.View.extend({
 });
 
 //App.Views.SpeciesCollection = Backbone.Views.extend({});
-//App.Views.ScenarioTable = Backbone.Views.extend({});
+App.Views.ScenarioManagementView = Backbone.View.extend({
+	
 
+});
 
+/* Need some kind of management view to co-ordinate collections and graphs */
+/* In old code scenario module has     
+ * initYearHelper();
+    updateColors();
+    all other functionality is here
+    */
+App.Views.RespirationGraphManagementView = Backbone.View.extend({
+	
 
-
+});
 
 
 jQuery(function(){
@@ -286,13 +296,11 @@ jQuery(function(){
         'e0' : 43140
     });
 
-	App.TestSpeciesView = new App.Views.Species({ model: App.TestSpecies, el: jQuery('.species-view-test')}).render();
-	//App.TestScenarioView = new App.Views.Scenario();
-	
-	App.TestScenario = new App.Models.Scenario({});
-
-
-	
+//	App.TestSpeciesView = new App.Views.Species({ model: App.TestSpecies, el: jQuery('.species-view-test')}).render();
+//	//App.TestScenarioView = new App.Views.Scenario();
+//	
+//	App.TestScenario = new App.Models.Scenario({});
+//
 	App.TestScenarioView = new App.Views.Scenario({ model: App.TestScenario, el: jQuery('.scenario-view-test')}).render();
 	
 	
