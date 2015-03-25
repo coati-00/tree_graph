@@ -6,8 +6,7 @@
 var App = { 
 	Models: {}, 
 	Collections: {}, 
-	Views:{}//,
-	//Contacts: null 
+	Views:{}
 };
 
 
@@ -16,14 +15,6 @@ App.Models.Species = Backbone.Model.extend({});
 App.Collections.SpeciesCollection = Backbone.Collection.extend({
 	model: App.Models.Species,
 });
-
-/* maybe define predefined trees here so each scenario can have the list?
- * Or just keep in the on ready function and manually compare to the value
- * the user clicks on? */
-//if (options && 'scenarioName' in options) {
-//    this.scenarioName = options.scenarioName;
-//}
-
 
 App.Models.Scenario = Backbone.Model.extend({
 	
@@ -40,7 +31,8 @@ App.Models.Scenario = Backbone.Model.extend({
 
 
 App.Collections.ScenarioCollection = Backbone.Collection.extend({
-	/* Will probably have to override create so that the number is auto incremented */
+	/* Will probably have to override create or add event so that
+	 * the number of scenarios is auto incremented */
 	
 	model: App.Models.Scenario,
 	
@@ -56,13 +48,13 @@ App.Collections.ScenarioCollection = Backbone.Collection.extend({
 App.Views.Species = Backbone.View.extend({
 
 	events: {
-	    'click .delete': 'remove'
+	    'click .delete': 'remove',
+	    'click .scenario-species-row .name_info .dropdown-menu .species-predefined-choice': 'selectSpecies'
 	  },
 	
 	initialize: function(options){
 		_.bindAll(this, 'render', 'insert', 'remove');
-		//this.$container = options.$container;
-		this.template = _.template(jQuery("#scenario-species-template").html());
+		this.template = _.template(jQuery("#leaf-species-template").html());
 		if (options && 'container' in options) {
 			this.container = options.container;
 			this.insert();
@@ -81,6 +73,15 @@ App.Views.Species = Backbone.View.extend({
 	
 	remove: function() {
 	    this.model.destroy();
+	},
+	
+	selectSpecies: function(event) {
+		var tree_id = event.currentTarget.attributes['data-id'].value;
+		/* Shouldn't be relying on a global variable here... should be passing in or something */
+		var cpy_tree = App.PredefinedSpecies.get(tree_id).clone();
+		this.model.set({'id': cpy_tree.get('id'), 'label' : cpy_tree.get('label'),
+			            't0' : cpy_tree.get('t0'), 'k' :  cpy_tree.get('k'),
+			            'r0' : cpy_tree.get('r0'), 'e0' : cpy_tree.get('e0')});
 	}
 
 });
@@ -89,16 +90,18 @@ App.Views.Scenario = Backbone.View.extend({
 	
 	events: {
 	    'click .scenario-row .deleteScenario': 'remove',
-	    //'click .species-table-header .addSpecies': 'addSpeciesRow',
+	    /* Do we want to leave functionality as is? Where it adds a row and then user selects species or what? */
 	    'click .species-table-header .dropdown-menu .species-predefined-choice': 'addSpeciesRow'
 	  },
 	
 	initialize: function(options){
 		_.bindAll(this, 'render', 'remove');
 		this.template = _.template(jQuery("#scenario-template").html());
-		/* would it be better to declare this.species container = null; 
-		 * and assign it each time in render? */
-		// this.species_container = this.$el.find(jQuery('.species-table-body'));
+		if (options && 'container' in options) {
+			this.container = options.container;
+			this.insert();
+		}
+
 	},
 	
 	render: function() { 
@@ -108,8 +111,6 @@ App.Views.Scenario = Backbone.View.extend({
 		if(num_of_species > 0) {
 			// remove current species rows
 		    var species_container = this.$('.species-table-body .species-row-container').empty();
-			console.log("num_of_species > 0");
-			console.log(num_of_species > 0);
 			this.model.speciesList.each(function(species) { 
 			    new App.Views.Species(
 					{ model: species, container: species_container }
@@ -128,10 +129,14 @@ App.Views.Scenario = Backbone.View.extend({
 	            'e0' : 43140
 	        });
 	        this.$('.species-table-body').append(
-	        	new App.Views.Species({ model: tree_here, container: species_container  }).render());//, 
+	        	new App.Views.Species({ model: tree_here, container: species_container  }).render());
 	        
 	        return this;
 		}
+	},
+	
+    insert: function(){
+		this.container.append(this.$el);
 	},
 	
 	remove: function() {
@@ -271,15 +276,6 @@ jQuery(function(){
         })
     ]);
 	
-	//console.log("App.PredefinedSpecies");
-	//console.log(App.PredefinedSpecies);
-	//App.Scenario = new App.Models.Scenario();
-	//console.log("App.Scenario");
-	//console.log(App.Scenario);
-
-	//App.ScenarioCollection = new App.Collections.ScenarioCollection();
-	
-	
 	
 	App.TestSpecies = new App.Models.Species({   
         'id': "unique_id",
@@ -289,16 +285,13 @@ jQuery(function(){
         'r0' : 0.602,
         'e0' : 43140
     });
-	console.log("App.TestSpecies");
-	console.log(App.TestSpecies);
+
 	App.TestSpeciesView = new App.Views.Species({ model: App.TestSpecies, el: jQuery('.species-view-test')}).render();
 	//App.TestScenarioView = new App.Views.Scenario();
 	
 	App.TestScenario = new App.Models.Scenario({});
 
-    
-	console.log("App.TestSpecies");
-	console.log(App.TestSpecies);
+
 	
 	App.TestScenarioView = new App.Views.Scenario({ model: App.TestScenario, el: jQuery('.scenario-view-test')}).render();
 	
