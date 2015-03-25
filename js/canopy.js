@@ -90,7 +90,7 @@ App.Views.Scenario = Backbone.View.extend({
 	events: {
 	    'click .scenario-row .deleteScenario': 'remove',
 	    //'click .species-table-header .addSpecies': 'addSpeciesRow',
-	    'click .species-table-header .dropdown-menu .species-predefined-choice a': 'addSpeciesRow'
+	    'click .species-table-header .dropdown-menu .species-predefined-choice': 'addSpeciesRow'
 	  },
 	
 	initialize: function(options){
@@ -139,21 +139,14 @@ App.Views.Scenario = Backbone.View.extend({
 	    this.model.destroy();
 	},
 	
-	addSpeciesRow: function() {
+	addSpeciesRow: function(event) {
+		var tree_id = event.currentTarget.attributes['data-id'].value;
+		/* Shouldn't be relying on a global variable here... should be passing in or something */
+		var cpy_tree = App.PredefinedSpecies.get(tree_id).clone();
 		var species_container = this.$('.species-table-body .species-row-container');
-		var tree_here = new App.Models.Species({   
-            'id': "ue_id",
-            'label' : 'Tree Species',
-            't0' : 10,
-            'k' :  283.15,
-            'r0' : 0.602,
-            'e0' : 43140
-        });
         this.$('.species-table-body').append(
-        	new App.Views.Species({ model: tree_here, container: species_container  }).render()); 
+        	new App.Views.Species({ model: cpy_tree, container: species_container  }).render()); 
         return this;
-		
-		
 	}
 	
 });
