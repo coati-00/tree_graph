@@ -55,8 +55,12 @@ App.Collections.ScenarioCollection = Backbone.Collection.extend({
 
 App.Views.Species = Backbone.View.extend({
 
+	events: {
+	    'click .delete': 'remove'
+	  },
+	
 	initialize: function(options){
-		_.bindAll(this, 'render', 'insert');
+		_.bindAll(this, 'render', 'insert', 'remove');
 		//this.$container = options.$container;
 		this.template = _.template(jQuery("#scenario-species-template").html());
 		if (options && 'container' in options) {
@@ -73,14 +77,24 @@ App.Views.Species = Backbone.View.extend({
 
     insert: function(){
 		this.container.append(this.$el);
+	},
+	
+	remove: function() {
+	    this.model.destroy();
 	}
 
 });
 
 App.Views.Scenario = Backbone.View.extend({
 	
+	events: {
+	    'click .scenario-row .deleteScenario': 'remove',
+	    //'click .species-table-header .addSpecies': 'addSpeciesRow',
+	    'click .species-table-header .dropdown-menu .species-predefined-choice a': 'addSpeciesRow'
+	  },
+	
 	initialize: function(options){
-		_.bindAll(this, 'render');
+		_.bindAll(this, 'render', 'remove');
 		this.template = _.template(jQuery("#scenario-template").html());
 		/* would it be better to declare this.species container = null; 
 		 * and assign it each time in render? */
@@ -89,7 +103,7 @@ App.Views.Scenario = Backbone.View.extend({
 	
 	render: function() { 
 		
-		// why would someone put a dollar sign infront of a variable?
+		// why would someone put a dollar sign in front of a variable?
 		var num_of_species = this.model.get('numSpecies');
 		if(num_of_species > 0) {
 			// remove current species rows
@@ -118,6 +132,28 @@ App.Views.Scenario = Backbone.View.extend({
 	        
 	        return this;
 		}
+	},
+	
+	remove: function() {
+		/* I assume I will have to do this in a custom way so it removes the inner collection */
+	    this.model.destroy();
+	},
+	
+	addSpeciesRow: function() {
+		var species_container = this.$('.species-table-body .species-row-container');
+		var tree_here = new App.Models.Species({   
+            'id': "ue_id",
+            'label' : 'Tree Species',
+            't0' : 10,
+            'k' :  283.15,
+            'r0' : 0.602,
+            'e0' : 43140
+        });
+        this.$('.species-table-body').append(
+        	new App.Views.Species({ model: tree_here, container: species_container  }).render()); 
+        return this;
+		
+		
 	}
 	
 });
